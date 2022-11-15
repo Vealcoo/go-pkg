@@ -1,12 +1,13 @@
 module go-pkg
 
-go 1.18
+go 1.19
 
 require (
 	cloud.google.com/go/storage v1.28.0
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/disintegration/imaging v1.6.2
 	github.com/gin-gonic/gin v1.8.1
+	github.com/google/uuid v1.3.0
 	github.com/h2non/filetype v1.1.3
 	github.com/pkg/errors v0.9.1
 	github.com/stretchr/testify v1.8.0
@@ -27,7 +28,6 @@ require (
 	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/go-cmp v0.5.9 // indirect
-	github.com/google/uuid v1.3.0 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.2.0 // indirect
 	github.com/googleapis/gax-go/v2 v2.6.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
