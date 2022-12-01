@@ -1,4 +1,4 @@
-module go-pkg
+module github.com/Vealcoo/go-pkg
 
 go 1.19
 
