@@ -32,12 +32,13 @@ type TelegramNotifyRes struct {
 	Ok bool `json:"ok"`
 }
 
-func (t *TelegramNotify) Notify(msg string, chatId int64) (*TelegramNotifyRes, error) {
+func (t *TelegramNotify) Notify(msg interface{}, chatId int64) (*TelegramNotifyRes, error) {
 	apiHost := fmt.Sprintf("%s%s/%s", host, t, "sendMessage")
 
 	req := url.Values{}
 	req.Set("chat_id", strconv.FormatInt(chatId, 10))
-	req.Set("text", msg)
+	str := fmt.Sprintf("%v", msg)
+	req.Set("text", str)
 
 	res := &TelegramNotifyRes{}
 
