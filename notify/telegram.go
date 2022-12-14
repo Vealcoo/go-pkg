@@ -24,8 +24,10 @@ func NewTelegramNotify() *TelegramNotify {
 	return t
 }
 
-func (t *TelegramNotify) SetToken(token string) {
+func (t *TelegramNotify) SetToken(token string) *TelegramNotify {
 	t.botToken = token
+
+	return t
 }
 
 type TelegramNotifyRes struct {
