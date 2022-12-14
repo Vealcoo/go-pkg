@@ -14,12 +14,26 @@ const (
 	timeOut = 5 * time.Second
 )
 
+type TelegramNotify struct {
+	botToken string
+}
+
+func NewTelegramNotify() *TelegramNotify {
+	t := new(TelegramNotify)
+
+	return t
+}
+
+func (t *TelegramNotify) SetToken(token string) {
+	t.botToken = token
+}
+
 type TelegramNotifyRes struct {
 	Ok bool `json:"ok"`
 }
 
-func Notify(botKey, msg string, chatId int64) (*TelegramNotifyRes, error) {
-	apiHost := fmt.Sprintf("%s%s/%s", host, botKey, "sendMessage")
+func (t *TelegramNotify) Notify(msg string, chatId int64) (*TelegramNotifyRes, error) {
+	apiHost := fmt.Sprintf("%s%s/%s", host, t, "sendMessage")
 
 	req := url.Values{}
 	req.Set("chat_id", strconv.FormatInt(chatId, 10))
