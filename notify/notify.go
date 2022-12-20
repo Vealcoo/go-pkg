@@ -16,3 +16,11 @@ func (n *Notify) SetTelegramNotify(token string) *Notify {
 
 	return n
 }
+
+func (n *Notify) NewTgClient() *TelegramNotify {
+	if n.tg != nil {
+		return n.tg
+	}
+
+	return nil
+}
