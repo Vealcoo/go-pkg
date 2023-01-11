@@ -2,9 +2,20 @@ package gcs
 
 import (
 	"context"
+	"os"
 
 	"cloud.google.com/go/storage"
 )
+
+func GcsConn(credentials string) *storage.Client {
+	os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", credentials)
+	gcsClient, err := storage.NewClient(context.Background())
+	if err != nil {
+		panic(err)
+	}
+
+	return gcsClient
+}
 
 func Write(ctx context.Context, bucket *storage.BucketHandle, key string, val []byte) error {
 	obj := bucket.Object(key)
