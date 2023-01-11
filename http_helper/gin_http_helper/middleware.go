@@ -8,7 +8,7 @@ import (
 	"github.com/rs/zerolog"
 )
 
-func CORSMiddleware() gin.HandlerFunc {
+func CORSDefault() gin.HandlerFunc {
 	return func(g *gin.Context) {
 		g.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 		g.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
@@ -24,7 +24,7 @@ func CORSMiddleware() gin.HandlerFunc {
 	}
 }
 
-func LoggingMiddleware(log *zerolog.Logger) gin.HandlerFunc {
+func LogHandler(log *zerolog.Logger) gin.HandlerFunc {
 	return func(g *gin.Context) {
 		g.Next()
 
@@ -46,7 +46,7 @@ func LoggingMiddleware(log *zerolog.Logger) gin.HandlerFunc {
 	}
 }
 
-func ErrorMiddleware(errMap map[error]interface{}) gin.HandlerFunc {
+func ErrorHandler(errMap map[error]interface{}) gin.HandlerFunc {
 	return func(g *gin.Context) {
 		g.Next()
 
