@@ -3,6 +3,7 @@ package httphelper
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"mime/multipart"
 	"net/http"
@@ -32,6 +33,10 @@ func SendPostWithJSON(apiHost string, res interface{}, data interface{}, timeOut
 	resBody, err := ioutil.ReadAll(apiRes.Body)
 	if err != nil {
 		return err
+	}
+
+	if apiRes.StatusCode != http.StatusOK {
+		return fmt.Errorf("req: %s, res: %s", string(jsonData), string(resBody))
 	}
 
 	err = json.Unmarshal(resBody, &res)
