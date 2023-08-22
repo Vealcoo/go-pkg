@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	httpHelper "github.com/Vealcoo/go-pkg/http_helper"
+	"github.com/Vealcoo/go-pkg/httphelper"
 )
 
 const (
@@ -44,7 +44,7 @@ func (t *TelegramNotify) Notify(msg interface{}, chatId int64) (*TelegramNotifyR
 
 	res := &TelegramNotifyRes{}
 
-	err := httpHelper.SendPostWithUrl(apiHost, res, req, timeOut)
+	err := httphelper.SendPostWithUrl(apiHost, res, req, timeOut)
 	if err != nil {
 		return nil, err
 	}
