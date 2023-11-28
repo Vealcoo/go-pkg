@@ -3,7 +3,7 @@ package ginhttphelper
 import (
 	"time"
 
-	"github.com/Vealcoo/go-pkg/conversion"
+	"github.com/Vealcoo/go-pkg/warninghelper"
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog"
 )
@@ -24,46 +24,65 @@ func CORSDefault() gin.HandlerFunc {
 	}
 }
 
-func LogHandler(log *zerolog.Logger) gin.HandlerFunc {
-	return func(g *gin.Context) {
-		g.Next()
+type LogStruct struct {
+	Ip     string      `json:"ip,omitempty"`
+	Url    string      `json:"url,omitempty"`
+	Method string      `json:"method,omitempty"`
+	Host   string      `json:"host,omitempty"`
+	Body   interface{} `json:"body,omitempty"`
+	Time   time.Time   `json:"time,omitempty"`
+	Tag    string      `json:"tag,omitempty"`
+	Meta   interface{} `json:"meta,omitempty"`
+}
 
-		for _, err := range g.Errors {
-			log.Error().Err(err.Err).Fields(struct {
-				Url    interface{}
-				Method interface{}
-				Host   interface{}
-				Body   interface{}
-				Time   interface{}
-			}{
-				Url:    g.Request.URL,
-				Method: g.Request.Method,
-				Host:   g.Request.Host,
-				Body:   g.Request.Body,
-				Time:   time.Now(),
-			})
-		}
+func defaultLog(g *gin.Context) *LogStruct {
+	return &LogStruct{
+		Ip:     g.ClientIP(),
+		Url:    g.Request.URL.Path,
+		Method: g.Request.Method,
+		Host:   g.Request.Host,
+		Body:   g.Request.Body,
+		Time:   time.Now(),
 	}
 }
 
-func ErrorHandler(errMap map[error]interface{}) gin.HandlerFunc {
+func switchLogFunc(customLog func(ctx *gin.Context) *LogStruct) func(ctx *gin.Context) *LogStruct {
+	switch customLog {
+	case nil:
+		return defaultLog
+	default:
+		return customLog
+	}
+}
+
+func LogHandler(log zerolog.Logger, tag string, customLog func(ctx *gin.Context) *LogStruct) gin.HandlerFunc {
 	return func(g *gin.Context) {
-		g.Next()
+		l := switchLogFunc(customLog)(g)
+
+		if tag != "" {
+			l.Tag = tag
+		}
 
 		for _, err := range g.Errors {
-			if e, ok := errMap[err.Err]; ok {
-				m := map[string]interface{}{}
+			log.Error().Err(err.Err).Fields(l)
+		}
 
-				res := conversion.Struct2Map(e)
-				for k, v := range res {
-					m[k] = v
-				}
+		g.Next()
+	}
+}
 
-				g.JSON(-1, m)
-				continue
+func ErrWarning(warningClient warninghelper.WarningService, codeStartFrom int, tag string, customLog func(ctx *gin.Context) *LogStruct) gin.HandlerFunc {
+	return func(g *gin.Context) {
+		if g.Writer.Status() >= codeStartFrom {
+			l := switchLogFunc(customLog)(g)
+
+			if tag != "" {
+				l.Tag = tag
 			}
 
-			g.JSON(-1, gin.H{"code": -1, "error": "SystemError"})
+			go warningClient.Warning(l)
 		}
+
+		g.Next()
 	}
 }
