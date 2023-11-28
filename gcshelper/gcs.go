@@ -7,7 +7,7 @@ import (
 	"cloud.google.com/go/storage"
 )
 
-func GcsConn(credentials string) *storage.Client {
+func GcsClient(credentials string) *storage.Client {
 	os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", credentials)
 	gcsClient, err := storage.NewClient(context.Background())
 	if err != nil {
