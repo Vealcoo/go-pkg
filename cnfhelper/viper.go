@@ -1,4 +1,4 @@
-package cnf
+package cnfhelper
 
 import "github.com/spf13/viper"
 
