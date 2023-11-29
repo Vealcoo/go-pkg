@@ -13,7 +13,17 @@ func SendOKResponse(g *gin.Context, res any) {
 var errMap map[error]int
 
 func SetErrorMap(m map[error]int) {
-	errMap = m
+	merge := make(map[error]int)
+
+	for key, value := range errMap {
+		merge[key] = value
+	}
+
+	for key, value := range m {
+		merge[key] = value
+	}
+
+	errMap = merge
 }
 
 func SendErrorResponse(g *gin.Context, err error) {
