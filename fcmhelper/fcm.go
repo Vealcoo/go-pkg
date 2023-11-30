@@ -16,7 +16,7 @@ type FCMSender struct {
 	c       chan *messaging.MulticastMessage
 }
 
-func CreateFCMSender(ctx context.Context, workerNum int, l zerolog.Logger) (*FCMSender, error) {
+func CreateFCMSender(ctx context.Context, workerNum int, l zerolog.Logger) *FCMSender {
 	firebaseApp, err := firebase.NewApp(ctx, nil)
 	if err != nil {
 		l.Panic().Err(err).Send()
@@ -28,7 +28,7 @@ func CreateFCMSender(ctx context.Context, workerNum int, l zerolog.Logger) (*FCM
 	}
 
 	if workerNum == 0 {
-		return nil, errors.New("workerNum is 0")
+		l.Panic().Err(errors.New("workerNum is 0")).Send()
 	}
 
 	s := &FCMSender{
@@ -40,10 +40,10 @@ func CreateFCMSender(ctx context.Context, workerNum int, l zerolog.Logger) (*FCM
 
 	for i := 0; i < workerNum; i++ {
 		s.workers[i] = &fcmWorker{s}
-		go s.workers[i].Start()
+		go s.workers[i].start()
 	}
 
-	return s, nil
+	return s
 }
 
 func (s *FCMSender) Send(d *messaging.MulticastMessage) {
@@ -54,7 +54,7 @@ type fcmWorker struct {
 	sender *FCMSender
 }
 
-func (w *fcmWorker) Start() {
+func (w *fcmWorker) start() {
 	for m := range w.sender.c {
 		res, err := w.sender.client.SendMulticast(context.Background(), m)
 		if err != nil {
