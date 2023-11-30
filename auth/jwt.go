@@ -1,31 +1,23 @@
 package auth
 
 import (
-	"time"
-
 	jwt "github.com/dgrijalva/jwt-go"
 )
 
-const (
-	SECRETKEY = "ji3g45/4u;6"
-)
-
 type Claims struct {
-	ObjectId string
+	Meta interface{}
 	jwt.StandardClaims
 }
 
-func SetToken(objectId string) (string, error) {
-	nowTime := time.Now()
-	expireTime := nowTime.Add(300 * time.Second)
+func SetJWTToken(secrct string, expireAt int64, meta interface{}) (string, error) {
 	claims := Claims{
-		ObjectId: objectId,
+		Meta: meta,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: expireTime.Unix(),
+			ExpiresAt: expireAt,
 		},
 	}
 
-	token, err := jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString([]byte(SECRETKEY))
+	token, err := jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString([]byte(secrct))
 	if err != nil {
 		return "", err
 	}
@@ -33,17 +25,18 @@ func SetToken(objectId string) (string, error) {
 	return token, nil
 }
 
-func AuthJWT(token string) (string, error) {
+func ReadJWT(secrct, token string) (interface{}, error) {
 	tokenClaims, err := jwt.ParseWithClaims(token, &Claims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte(SECRETKEY), nil
+		return []byte(secrct), nil
 	})
-	if err != nil {
-		return "", err
+	if err != nil || !tokenClaims.Valid {
+		return nil, ErrInvaildToken
 	}
 
-	if claims, ok := tokenClaims.Claims.(*Claims); ok && tokenClaims.Valid {
-		return claims.ObjectId, nil
+	claims, ok := tokenClaims.Claims.(*Claims)
+	if !ok {
+		return nil, ErrInvaildToken
 	}
 
-	return "", ErrVaild
+	return claims.Meta, nil
 }
