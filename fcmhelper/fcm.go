@@ -9,14 +9,14 @@ import (
 	zerolog "github.com/rs/zerolog"
 )
 
-type FCMSender struct {
+type fcmSender struct {
 	client  *messaging.Client
 	log     zerolog.Logger
 	workers []*fcmWorker
 	c       chan *messaging.MulticastMessage
 }
 
-func CreateFCMSender(ctx context.Context, workerNum int, l zerolog.Logger) (*FCMSender, error) {
+func CreateFCMSender(ctx context.Context, workerNum int, l zerolog.Logger) *fcmSender {
 	firebaseApp, err := firebase.NewApp(ctx, nil)
 	if err != nil {
 		l.Panic().Err(err).Send()
@@ -28,10 +28,10 @@ func CreateFCMSender(ctx context.Context, workerNum int, l zerolog.Logger) (*FCM
 	}
 
 	if workerNum == 0 {
-		return nil, errors.New("workerNum is 0")
+		l.Panic().Err(errors.New("workerNum is 0")).Send()
 	}
 
-	s := &FCMSender{
+	s := &fcmSender{
 		client:  messageClient,
 		log:     l,
 		workers: make([]*fcmWorker, workerNum),
@@ -40,21 +40,21 @@ func CreateFCMSender(ctx context.Context, workerNum int, l zerolog.Logger) (*FCM
 
 	for i := 0; i < workerNum; i++ {
 		s.workers[i] = &fcmWorker{s}
-		go s.workers[i].Start()
+		go s.workers[i].start()
 	}
 
-	return s, nil
+	return s
 }
 
-func (s *FCMSender) Send(d *messaging.MulticastMessage) {
+func (s *fcmSender) Send(d *messaging.MulticastMessage) {
 	s.c <- d
 }
 
 type fcmWorker struct {
-	sender *FCMSender
+	sender *fcmSender
 }
 
-func (w *fcmWorker) Start() {
+func (w *fcmWorker) start() {
 	for m := range w.sender.c {
 		res, err := w.sender.client.SendMulticast(context.Background(), m)
 		if err != nil {
