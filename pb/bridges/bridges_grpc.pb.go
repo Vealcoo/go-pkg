@@ -4,7 +4,7 @@
 // - protoc             v4.25.1
 // source: bridges.proto
 
-package __
+package birdges
 
 import (
 	context "context"
