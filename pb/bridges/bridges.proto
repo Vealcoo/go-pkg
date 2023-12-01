@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+option go_package = "./";
+
+package Bridges;
+
+service BrigageService {
+    rpc SetKeys(SetKeysRequest) returns (SetKeysReply) {}
+
+    rpc SendByKeys(SendByKeysRequest) returns (SendReply) {}
+    rpc SendAll(SendAllRequest) returns (SendReply) {}
+}
+
+message KeyInfo {
+  string id = 1;
+  int64 expireAt = 2;
+}
+
+message SetKeysRequest{
+  repeated KeyInfo keys = 1;
+}
+
+message SetKeysReply {
+}
+
+message SendByKeysRequest{
+  repeated string keys = 1;
+  string evt = 2;
+  bytes data = 3;
+}
+
+message SendAllRequest{
+  string evt = 1;
+  bytes data = 2;
+  repeated string skipKeys = 3;
+}
+
+message SendReply {
+}
