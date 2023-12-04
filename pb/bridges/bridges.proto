@@ -4,7 +4,7 @@ option go_package = ".;birdges";
 
 package Bridges;
 
-service BrigageService {
+service BridgesService {
     rpc SetKeys(SetKeysRequest) returns (SetKeysReply) {}
 
     rpc SendByKeys(SendByKeysRequest) returns (SendReply) {}

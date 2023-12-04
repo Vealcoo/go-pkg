@@ -19,163 +19,163 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	BrigageService_SetKeys_FullMethodName    = "/Bridges.BrigageService/SetKeys"
-	BrigageService_SendByKeys_FullMethodName = "/Bridges.BrigageService/SendByKeys"
-	BrigageService_SendAll_FullMethodName    = "/Bridges.BrigageService/SendAll"
+	BridgesService_SetKeys_FullMethodName    = "/Bridges.BridgesService/SetKeys"
+	BridgesService_SendByKeys_FullMethodName = "/Bridges.BridgesService/SendByKeys"
+	BridgesService_SendAll_FullMethodName    = "/Bridges.BridgesService/SendAll"
 )
 
-// BrigageServiceClient is the client API for BrigageService service.
+// BridgesServiceClient is the client API for BridgesService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type BrigageServiceClient interface {
+type BridgesServiceClient interface {
 	SetKeys(ctx context.Context, in *SetKeysRequest, opts ...grpc.CallOption) (*SetKeysReply, error)
 	SendByKeys(ctx context.Context, in *SendByKeysRequest, opts ...grpc.CallOption) (*SendReply, error)
 	SendAll(ctx context.Context, in *SendAllRequest, opts ...grpc.CallOption) (*SendReply, error)
 }
 
-type brigageServiceClient struct {
+type bridgesServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewBrigageServiceClient(cc grpc.ClientConnInterface) BrigageServiceClient {
-	return &brigageServiceClient{cc}
+func NewBridgesServiceClient(cc grpc.ClientConnInterface) BridgesServiceClient {
+	return &bridgesServiceClient{cc}
 }
 
-func (c *brigageServiceClient) SetKeys(ctx context.Context, in *SetKeysRequest, opts ...grpc.CallOption) (*SetKeysReply, error) {
+func (c *bridgesServiceClient) SetKeys(ctx context.Context, in *SetKeysRequest, opts ...grpc.CallOption) (*SetKeysReply, error) {
 	out := new(SetKeysReply)
-	err := c.cc.Invoke(ctx, BrigageService_SetKeys_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, BridgesService_SetKeys_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *brigageServiceClient) SendByKeys(ctx context.Context, in *SendByKeysRequest, opts ...grpc.CallOption) (*SendReply, error) {
+func (c *bridgesServiceClient) SendByKeys(ctx context.Context, in *SendByKeysRequest, opts ...grpc.CallOption) (*SendReply, error) {
 	out := new(SendReply)
-	err := c.cc.Invoke(ctx, BrigageService_SendByKeys_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, BridgesService_SendByKeys_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *brigageServiceClient) SendAll(ctx context.Context, in *SendAllRequest, opts ...grpc.CallOption) (*SendReply, error) {
+func (c *bridgesServiceClient) SendAll(ctx context.Context, in *SendAllRequest, opts ...grpc.CallOption) (*SendReply, error) {
 	out := new(SendReply)
-	err := c.cc.Invoke(ctx, BrigageService_SendAll_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, BridgesService_SendAll_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// BrigageServiceServer is the server API for BrigageService service.
-// All implementations must embed UnimplementedBrigageServiceServer
+// BridgesServiceServer is the server API for BridgesService service.
+// All implementations must embed UnimplementedBridgesServiceServer
 // for forward compatibility
-type BrigageServiceServer interface {
+type BridgesServiceServer interface {
 	SetKeys(context.Context, *SetKeysRequest) (*SetKeysReply, error)
 	SendByKeys(context.Context, *SendByKeysRequest) (*SendReply, error)
 	SendAll(context.Context, *SendAllRequest) (*SendReply, error)
-	mustEmbedUnimplementedBrigageServiceServer()
+	mustEmbedUnimplementedBridgesServiceServer()
 }
 
-// UnimplementedBrigageServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedBrigageServiceServer struct {
+// UnimplementedBridgesServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedBridgesServiceServer struct {
 }
 
-func (UnimplementedBrigageServiceServer) SetKeys(context.Context, *SetKeysRequest) (*SetKeysReply, error) {
+func (UnimplementedBridgesServiceServer) SetKeys(context.Context, *SetKeysRequest) (*SetKeysReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetKeys not implemented")
 }
-func (UnimplementedBrigageServiceServer) SendByKeys(context.Context, *SendByKeysRequest) (*SendReply, error) {
+func (UnimplementedBridgesServiceServer) SendByKeys(context.Context, *SendByKeysRequest) (*SendReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendByKeys not implemented")
 }
-func (UnimplementedBrigageServiceServer) SendAll(context.Context, *SendAllRequest) (*SendReply, error) {
+func (UnimplementedBridgesServiceServer) SendAll(context.Context, *SendAllRequest) (*SendReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendAll not implemented")
 }
-func (UnimplementedBrigageServiceServer) mustEmbedUnimplementedBrigageServiceServer() {}
+func (UnimplementedBridgesServiceServer) mustEmbedUnimplementedBridgesServiceServer() {}
 
-// UnsafeBrigageServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to BrigageServiceServer will
+// UnsafeBridgesServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to BridgesServiceServer will
 // result in compilation errors.
-type UnsafeBrigageServiceServer interface {
-	mustEmbedUnimplementedBrigageServiceServer()
+type UnsafeBridgesServiceServer interface {
+	mustEmbedUnimplementedBridgesServiceServer()
 }
 
-func RegisterBrigageServiceServer(s grpc.ServiceRegistrar, srv BrigageServiceServer) {
-	s.RegisterService(&BrigageService_ServiceDesc, srv)
+func RegisterBridgesServiceServer(s grpc.ServiceRegistrar, srv BridgesServiceServer) {
+	s.RegisterService(&BridgesService_ServiceDesc, srv)
 }
 
-func _BrigageService_SetKeys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _BridgesService_SetKeys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SetKeysRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(BrigageServiceServer).SetKeys(ctx, in)
+		return srv.(BridgesServiceServer).SetKeys(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: BrigageService_SetKeys_FullMethodName,
+		FullMethod: BridgesService_SetKeys_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BrigageServiceServer).SetKeys(ctx, req.(*SetKeysRequest))
+		return srv.(BridgesServiceServer).SetKeys(ctx, req.(*SetKeysRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _BrigageService_SendByKeys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _BridgesService_SendByKeys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SendByKeysRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(BrigageServiceServer).SendByKeys(ctx, in)
+		return srv.(BridgesServiceServer).SendByKeys(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: BrigageService_SendByKeys_FullMethodName,
+		FullMethod: BridgesService_SendByKeys_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BrigageServiceServer).SendByKeys(ctx, req.(*SendByKeysRequest))
+		return srv.(BridgesServiceServer).SendByKeys(ctx, req.(*SendByKeysRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _BrigageService_SendAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _BridgesService_SendAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SendAllRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(BrigageServiceServer).SendAll(ctx, in)
+		return srv.(BridgesServiceServer).SendAll(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: BrigageService_SendAll_FullMethodName,
+		FullMethod: BridgesService_SendAll_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BrigageServiceServer).SendAll(ctx, req.(*SendAllRequest))
+		return srv.(BridgesServiceServer).SendAll(ctx, req.(*SendAllRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// BrigageService_ServiceDesc is the grpc.ServiceDesc for BrigageService service.
+// BridgesService_ServiceDesc is the grpc.ServiceDesc for BridgesService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var BrigageService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "Bridges.BrigageService",
-	HandlerType: (*BrigageServiceServer)(nil),
+var BridgesService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "Bridges.BridgesService",
+	HandlerType: (*BridgesServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "SetKeys",
-			Handler:    _BrigageService_SetKeys_Handler,
+			Handler:    _BridgesService_SetKeys_Handler,
 		},
 		{
 			MethodName: "SendByKeys",
-			Handler:    _BrigageService_SendByKeys_Handler,
+			Handler:    _BridgesService_SendByKeys_Handler,
 		},
 		{
 			MethodName: "SendAll",
-			Handler:    _BrigageService_SendAll_Handler,
+			Handler:    _BridgesService_SendAll_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
