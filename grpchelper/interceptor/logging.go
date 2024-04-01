@@ -1,0 +1,23 @@
+package interceptor
+
+import (
+	"context"
+
+	"github.com/rs/zerolog"
+	"google.golang.org/grpc"
+)
+
+func ServerLogging(log zerolog.Logger) grpc.UnaryServerInterceptor {
+	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo,
+		handler grpc.UnaryHandler) (interface{}, error) {
+		res, err := handler(ctx, req)
+
+		if err != nil {
+			log.Error().Err(err).Str("api", info.FullMethod).Interface("req", req).Interface("res", res).Msg("server return error")
+		} else {
+			log.Debug().Str("api", info.FullMethod).Interface("req", req).Interface("res", res).Msg("server return success")
+		}
+
+		return res, err
+	}
+}
