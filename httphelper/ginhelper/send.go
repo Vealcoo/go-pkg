@@ -1,4 +1,4 @@
-package ginhttphelper
+package ginhelper
 
 import (
 	"encoding/json"

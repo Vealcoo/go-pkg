@@ -1,4 +1,4 @@
-package ginhttphelper
+package ginhelper
 
 import (
 	"github.com/Vealcoo/go-pkg/httphelper"
