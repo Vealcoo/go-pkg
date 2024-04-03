@@ -34,6 +34,10 @@ func (h *ErrorHandler) ErrToCode(err error) error {
 	if !ok {
 		v = codes.Internal
 	}
+
+	if _, ok := status.FromError(err); ok {
+		return err
+	}
 	return status.Errorf(v, err.Error())
 }
 

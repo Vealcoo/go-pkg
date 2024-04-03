@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"mime/multipart"
 	"net/http"
 	"net/url"
@@ -30,7 +30,7 @@ func SendPostWithJSON(apiHost string, res interface{}, data interface{}, timeOut
 	}
 	defer apiRes.Body.Close()
 
-	resBody, err := ioutil.ReadAll(apiRes.Body)
+	resBody, err := io.ReadAll(apiRes.Body)
 	if err != nil {
 		return err
 	}
@@ -67,7 +67,7 @@ func SendPostWithJSONAndToken(apiHost string, res interface{}, data interface{},
 	}
 	defer apiRes.Body.Close()
 
-	resBody, err := ioutil.ReadAll(apiRes.Body)
+	resBody, err := io.ReadAll(apiRes.Body)
 	if err != nil {
 		return err
 	}
@@ -111,7 +111,7 @@ func SendPostWithUrl(apiHost string, res interface{}, data url.Values, timeOut t
 	}
 	defer apiRes.Body.Close()
 
-	resBody, err := ioutil.ReadAll(apiRes.Body)
+	resBody, err := io.ReadAll(apiRes.Body)
 	if err != nil {
 		return err
 	}
