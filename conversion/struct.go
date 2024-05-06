@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 )
 
-// 將 struct 轉換為定義的 map
+// 將struct轉換為定義的map
 func Struct2Map(data interface{}) map[string]interface{} {
 	var dataMap map[string]interface{}
 
@@ -27,7 +27,7 @@ func Struct2Map(data interface{}) map[string]interface{} {
 	return dataMap
 }
 
-// 將 來源的 struct 對應至新的 struct
+// 將來源的struct對應至新的struct
 func Struct2Struct(source interface{}, target interface{}) error {
 	dJson, err := json.Marshal(source)
 	if err != nil {
@@ -40,4 +40,24 @@ func Struct2Struct(source interface{}, target interface{}) error {
 	}
 
 	return nil
+}
+
+func StringToMapStringInterface(d string) (map[string]interface{}, error) {
+	jsonDecoder := json.NewDecoder(bytes.NewReader([]byte(d)))
+	jsonDecoder.UseNumber()
+
+	var decodedData map[string]interface{}
+	err := jsonDecoder.Decode(&decodedData)
+	if err != nil {
+		return nil, err
+	}
+	return decodedData, nil
+}
+
+func MapStringInterfaceToString(d map[string]interface{}) (string, error) {
+	b, err := json.Marshal(d)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
 }
