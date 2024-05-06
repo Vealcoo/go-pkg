@@ -42,22 +42,19 @@ func Struct2Struct(source interface{}, target interface{}) error {
 	return nil
 }
 
-func StringToMapStringInterface(d string) (map[string]interface{}, error) {
+func StringToMapStringInterface(d string) map[string]interface{} {
 	jsonDecoder := json.NewDecoder(bytes.NewReader([]byte(d)))
 	jsonDecoder.UseNumber()
 
 	var decodedData map[string]interface{}
-	err := jsonDecoder.Decode(&decodedData)
-	if err != nil {
-		return nil, err
-	}
-	return decodedData, nil
+	jsonDecoder.Decode(&decodedData)
+	return decodedData
 }
 
-func MapStringInterfaceToString(d map[string]interface{}) (string, error) {
+func MapStringInterfaceToString(d map[string]interface{}) string {
 	b, err := json.Marshal(d)
 	if err != nil {
-		return "", err
+		return ""
 	}
-	return string(b), nil
+	return string(b)
 }
