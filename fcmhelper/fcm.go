@@ -7,6 +7,8 @@ import (
 	"firebase.google.com/go/v4/messaging"
 	"github.com/pkg/errors"
 	zerolog "github.com/rs/zerolog"
+
+	"google.golang.org/api/option"
 )
 
 type FCMSender struct {
@@ -16,8 +18,8 @@ type FCMSender struct {
 	c       chan *messaging.MulticastMessage
 }
 
-func CreateFCMSender(ctx context.Context, workerNum int, l zerolog.Logger) *FCMSender {
-	firebaseApp, err := firebase.NewApp(ctx, nil)
+func CreateFCMSender(ctx context.Context, workerNum int, l zerolog.Logger, opts ...option.ClientOption) *FCMSender {
+	firebaseApp, err := firebase.NewApp(ctx, nil, opts...)
 	if err != nil {
 		l.Panic().Err(err).Send()
 	}
