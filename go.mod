@@ -10,6 +10,7 @@ require (
 	github.com/gin-gonic/gin v1.8.1
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/google/uuid v1.3.0
+	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0
 	github.com/h2non/filetype v1.1.3
 	github.com/pkg/errors v0.9.1
 	github.com/rs/zerolog v1.28.0
@@ -17,6 +18,7 @@ require (
 	github.com/stretchr/testify v1.8.1
 	go.mongodb.org/mongo-driver v1.11.1
 	golang.org/x/exp v0.0.0-20220613132600-b0d781184e0d
+	google.golang.org/api v0.114.0
 	google.golang.org/grpc v1.56.3
 	google.golang.org/protobuf v1.30.0
 )
@@ -79,7 +81,6 @@ require (
 	golang.org/x/text v0.13.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2 // indirect
-	google.golang.org/api v0.114.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/appengine/v2 v2.0.2 // indirect
 	google.golang.org/genproto v0.0.0-20230410155749-daa745c078e1 // indirect
